@@ -1,5 +1,5 @@
 # Noronha-et-al-2015-QSR
-Matlab code from soil carbon model used in Noronha et al 2015 published in Quaternary Science Reviews
+Matlab code from soil carbon model used in Noronha, A. L., K. R. Johnson, J. R. Southon, C. Hu, J. Ruan, and S. McCabe-Glynn (2015), [Radiocarbon Evidence for Decomposition of Aged Organic Matter in the Vadose Zone as the Main Source of Speleothem Carbon](http://www.sciencedirect.com/science/article/pii/S0277379115002267), Quaternary Science Reviews
 
 Main file is in file bombC.m, all other functions are called by this file.  File heshang.txt is the new data published in the QSR manuscript, and serves of an example of the input file required by the bombC.m.
 
