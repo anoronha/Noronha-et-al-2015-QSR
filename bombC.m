@@ -8,11 +8,13 @@ clear atmo stal lambda x0 startRecord lastPreBomb stalYears intPool memoMeans st
 
 global atmo stal lambda startRecord lastPreBomb stalYears intPool memoMeans startModel modelYears
 
+%input values here:
 %-----------------------------------------------------------------------%
 in_stal = load('heshang.txt');
 postbomb = load('NHZ3.txt');
 prebomb = load('nhprebomb.txt');
 guesses = 10;
+windup = 100;
 %-----------------------------------------------------------------------%
 
 atmo = vertcat(postbomb, prebomb);
@@ -20,8 +22,6 @@ atmo = vertcat(postbomb, prebomb);
 stal = sortrows(in_stal,-1);
 
 lambda = log(2)/5730;
-
-windup = 100;
 
 for i = 1:1:length(stal);
     stal(i,2) = stal(i,2)*exp(-stal(i,1)*lambda);
