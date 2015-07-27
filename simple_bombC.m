@@ -71,14 +71,6 @@ b = [0; 0; 0; 0; 0; 0; 0; 0];
 lb = [0 0 0 0 1 2 100 1000];
 ub = [1 1 1 1 1 99 999 10000];
 
-% opts = optimset('Algorithm','interior-point','FunValCheck', 'on','UseParallel','always');
-% 
-% problem = createOptimProblem('x0',x0,...
-%     'objective',@errors,'lb',lb,'ub',...
-%     ub, 'Aineq', A, 'bineq', b, 'Aeq', Aeq,...
-%     'beq', beq,'nonlcon',@nonlcon,'options',opts);
-
-
 [xming,fming,flagg,outptg,manymins] = fmincon(@errors, x0, A, b, Aeq, beq, lb, ub, @nonlcon);
 
 
