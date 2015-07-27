@@ -1,7 +1,7 @@
 # Noronha-et-al-2015-QSR
 Matlab code from soil carbon model used in Noronha, A. L., K. R. Johnson, J. R. Southon, C. Hu, J. Ruan, and S. McCabe-Glynn (2015), [Radiocarbon Evidence for Decomposition of Aged Organic Matter in the Vadose Zone as the Main Source of Speleothem Carbon](http://www.sciencedirect.com/science/article/pii/S0277379115002267), *Quaternary Science Reviews.*
 
-Main file is in file bombC.m, all other functions are called by this file.  File heshang.txt is the new data published in the QSR manuscript, and serves of an example of the input file required by the bombC.m.
+Main file is bombC.m (or simple_bombC.m), all other functions are called by this file.  File heshang.txt is the new data published in the QSR manuscript, and serves of an example of the input file required by the bombC.m.
 
 **Stalagmite data input file requires a three column matrix:**
 
@@ -22,4 +22,4 @@ Reimer, P. J., E. Bard, A. Bayliss, J. W. Beck, P. G. Blackwell, C. B. Ramsey, C
 
 Hogg, A. G., Q. Hua, P. G. Blackwell, M. Niu, C. E. Buck, T. P. Guilderson, T. J. Heaton, J. G. Palmer, P. J. Reimer, R. W. Reimer, C. S. M. Turney, and S. R. H. Zimmerman (2013), [SHCal13 Southern Hemisphere Calibration, 0–50,000 Years Cal BP](https://journals.uair.arizona.edu/index.php/radiocarbon/article/view/16783), *Radiocarbon*, 55(4), 1889–1903. 
 
-Script uses the function `Multistart` which is part of the Global Optimization Toolbox available from [MathWorks](http://www.mathworks.com/products/global-optimization/)
+bombC.m is the code described in the manuscript and uses the function `Multistart` which is part of the Global Optimization Toolbox available from [MathWorks](http://www.mathworks.com/products/global-optimization/).  simple_bombC.m is a modified version of bombC.m that uses only packages that are standard to the Matlab distribution.  Solutions produced by this function are adquate though often not as good as the solutions produced by bombC.m
