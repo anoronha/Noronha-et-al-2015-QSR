@@ -28,9 +28,7 @@ lambda = log(2)/5730;
 
 windup = 100;
 
-for i = 1:1:length(stal);
-    stal(i,2) = stal(i,2)*exp(-stal(i,1)*lambda);
-end
+stal(:,2) = stal(:,2).*exp(-stal(:,1).*lambda);
 
 stalYears = (round(stal(1,1)):-1:-60)';
 modelYears = (windup+round(stal(1,1)):-1:-60)';
@@ -71,32 +69,40 @@ b = [0; 0; 0; 0; 0; 0; 0; 0];
 lb = [0 0 0 0 1 2 100 1000];
 ub = [1 1 1 1 1 99 999 10000];
 
-opts = optimset('Algorithm','interior-point','FunValCheck', 'on','UseParallel','always');
+status = license('test','Optimization_Toolbox')';
+if status == 1
+    'Using Global Optimization Toolbox'
+    opts = optimset('Algorithm','interior-point','FunValCheck', 'on','UseParallel','always');
+    
+    problem = createOptimProblem('fmincon','x0',x0,...
+        'objective',@errors,'lb',lb,'ub',...
+        ub, 'Aineq', A, 'bineq', b, 'Aeq', Aeq,...
+        'beq', beq,'nonlcon',@nonlcon,'options',opts);
+    
+    ms = MultiStart('StartPointsToRun', 'bounds');
+    
+    [xming,fming,flagg,outptg,manymins] = run(ms,problem,guesses);
+    numSolutions = length(manymins);
 
-problem = createOptimProblem('fmincon','x0',x0,...
-    'objective',@errors,'lb',lb,'ub',...
-    ub, 'Aineq', A, 'bineq', b, 'Aeq', Aeq,...
-    'beq', beq,'nonlcon',@nonlcon,'options',opts);
-
-ms = MultiStart('StartPointsToRun', 'bounds');
-
-[xming,fming,flagg,outptg,manymins] = run(ms,problem,guesses);
-
-numSolutions = length(manymins);
-
-solutions = horzcat(xming', fming);
-
-for i = 2:1:numSolutions
-    solutions = vertcat(solutions, horzcat(manymins(1,i).X',manymins(1,i).Fval));
+    solutions = horzcat(xming', fming);
+    
+    for i = 2:1:numSolutions
+        solutions = vertcat(solutions, horzcat(manymins(1,i).X',manymins(1,i).Fval));
+    end
+    
+    truncSolutions = horzcat(solutions(:,1:4), round(solutions(:,5:8)));
+    
+    modelSolutions = 1950-modelYears;
+    
+    for i = 1:1:length(truncSolutions)
+        modelSolutions = horzcat(modelSolutions, calc4box(fluxes(truncSolutions(i,:)')));
+    end
+else
+    'Global Optimization Toolbox license not available, using fmincon'
+    [xming,fming,flagg,outptg,manymins] = fmincon(@errors, x0, A, b, Aeq, beq, lb, ub, @nonlcon);
+    solution = horzcat(xming', fming);
 end
 
-truncSolutions = horzcat(solutions(:,1:4), round(solutions(:,5:8)));
-
-modelSolutions = 1950-modelYears;
-
-for i = 1:1:length(truncSolutions)
-    modelSolutions = horzcat(modelSolutions, calc4box(fluxes(truncSolutions(i,:)')));
-end
 
 bestFitSOM = horzcat(round(solutions(1,1:4)*100),round(solutions(1,5:8)));
 bestFitFluxes = fluxes(solutions(1,1:8)')';
@@ -105,7 +111,6 @@ bestFitFluxes = horzcat(round(bestFitFluxes(1:4)*100),round(bestFitFluxes(5:8)))
 params  = horzcat(bestFitSOM(1:4)', bestFitFluxes(1:4)', bestFitFluxes(5:8)');
 
 evalc('printmat(params, '''' , ''1 2 3 4'' , ''P F tau'')')
-
 
 figure('Color',[1 1 1])
 hold on
