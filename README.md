@@ -1,4 +1,7 @@
+NOTE:  This file appears to not work with newer versions of Matlab.  One of these days I'll fix it, but for now, it's here just for reference, don't waste time trying to get it to run!
+
 # Noronha-et-al-2015-QSR
+
 Matlab code from soil carbon model used in [Noronha et al 2015] (http://www.sciencedirect.com/science/article/pii/S0277379115002267), *Quaternary Science Reviews.*
 
 Main file is bombC.m, all other functions are called by this file.  File heshang.txt is the new data published in the QSR manuscript, and serves of an example of the input file required by the bombC.m.
